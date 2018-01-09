@@ -6,6 +6,7 @@ import copy
 
 
 def FourNumCalc(numRange, expRange, minReq, board, operators):
+    
     formulaCombos = cf.getFormulas(operators, True)
     group1, group2, group3 = cf.getNumCombs(numRange, expRange, True)
     outerDict, innerDict = th.StartThreads(formulaCombos, group1, group2, group3, board, minReq, True)
@@ -18,7 +19,6 @@ def FourNumCalc(numRange, expRange, minReq, board, operators):
 def ProcessNumbers(formulaCombos, numCombos, board):
     
     
-        
     outerDict = {}
     innerDict = {}
     numRegex = r"(\d*).0\*\*"
@@ -26,14 +26,17 @@ def ProcessNumbers(formulaCombos, numCombos, board):
     for item in numCombos:
         for cmb in formulaCombos:
             tmp = copy.copy(cmb)
-            tmp[tmp.index('_')] = str(item[0])
-            tmp[tmp.index('&')] = str(item[1])
-            tmp[tmp.index('_')] = str(item[2])
-            tmp[tmp.index('&')] = str(item[3])
-            tmp[tmp.index('_')] = str(item[4])
-            tmp[tmp.index('&')] = str(item[5])
-            tmp[tmp.index('_')] = str(item[6])
-            tmp[tmp.index('&')] = str(item[7])
+            try:
+                tmp[tmp.index('_')] = str(item[0])
+                tmp[tmp.index('&')] = str(item[1])
+                tmp[tmp.index('_')] = str(item[2])
+                tmp[tmp.index('&')] = str(item[3])
+                tmp[tmp.index('_')] = str(item[4])
+                tmp[tmp.index('&')] = str(item[5])
+                tmp[tmp.index('_')] = str(item[6])
+                tmp[tmp.index('&')] = str(item[7])
+            except:
+                continue
             try:
                 
                 stringFunc = ''.join(tmp)
@@ -60,10 +63,7 @@ def ProcessNumbers(formulaCombos, numCombos, board):
 
             except:
                 continue
-    if len(outerDict) <= 0:
-        return 'NoData'
-    else:
-        return outerDict, innerDict
+    return outerDict, innerDict
 
 
 

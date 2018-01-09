@@ -72,6 +72,7 @@ def getFormulas(operators, four):
             formulaCombos.append([solution['p1'], '_', '**', '&', solution['op1'], \
                   solution['p2'], '_', '**', '&',  solution['p3'], \
                     solution['op2'], '_', '**', '&', solution['p4']])
+
     return formulaCombos
 
 def getNumCombs(numRange, expRange, four):
@@ -150,17 +151,75 @@ def getNumCombs(numRange, expRange, four):
             except:
                 val = 'fail'
                 continue
+
+    #crappy way of adding in some sort of log to check what numbers are going to what group
+            '''
+    group1 = sorted(group1)
+    group2 = sorted(group2)
+    group3 = sorted(group3)
+
+    f = open('group1.txt','w')
+    g = open('group2.txt','w')
+    h = open('group3.txt','w')
+    for i in group1:
+        f.write(str(i))
+        f.write('\n')
+    for i in group2:
+        g.write(str(i))
+        g.write('\n')
+    for i in group3:
+        h.write(str(i))
+        h.write('\n')
+    f.close()
+    g.close()
+    h.close()
+    '''
+
     return group1, group2, group3
 
+    
+    
 
+def MergeDicts(dict1, dict2, dict3, inDict1, inDict2, inDict3):
 
-def MergeDicts(dict1, dict2, dict3):
-
-    result = {}
-    result.update(dict1)
-    result.update(dict2)
-    result.update(dict3)
-    return result
+    outerDict = {}
+    innerDict = {}
+    outerDict.update(dict1)
+    innerDict.update(inDict1)
+    for key in dict2.keys():
+        if key in outerDict:
+            for ans in dict2[key]:
+                innkey = key, ans
+                if innkey in innerDict:
+                    innerDict[innkey].append(inDict2[innkey])
+                else:
+                    innerDict[innkey] = inDict2[innkey]
+        else:
+            outerDict[key] = dict2[key]
+            for ans in dict2[key]:
+                innkey = key, ans
+                if innkey in innerDict:
+                    innerDict[innkey].append(inDict2[innkey])
+                else:
+                    innerDict[innkey] = inDict2[innkey]
+            
+    for key in dict3.keys():
+        if key in outerDict:
+            for ans in dict3[key]:
+                innkey = key, ans
+                if innkey in innerDict:
+                    innerDict[innkey].append(inDict3[innkey])
+                else:
+                    innerDict[innkey] = inDict3[innkey]
+        else:
+            outerDict[key] = dict3[key]
+            for ans in dict3[key]:
+                innkey = key, ans
+                if innkey in innerDict:
+                    innerDict[innkey].append(inDict3[innkey])
+                else:
+                    innerDict[innkey] = inDict3[innkey]
+    return outerDict, innerDict
 
 def FilterAnswers(outerDict, innerDict, minReq):
     outerSorted = sorted(outerDict.keys())

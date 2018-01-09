@@ -46,13 +46,11 @@ def ProcessNumbers(formulaCombos, numCombos, board):
                             outerDict[outerKey].append(answer)
                             innerDict[innerKey] = []
                             innerDict[innerKey].append(stringFunc)
+                            print stringFunc
                     else:
                         outerDict[outerKey] = []
                         outerDict.append(answer)
 
             except:
                 continue
-    if len(outerDict) <= 0:
-        return 'NoData', 'Nodata'
-    else:
-        return outerDict, innerDict
+    return outerDict, innerDict
